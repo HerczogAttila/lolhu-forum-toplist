@@ -61,6 +61,7 @@ class App extends Component {
 
     return (
       <div className="App">
+        <h2>Forum Toplist</h2>
         {usersTable}
       </div>
     );
