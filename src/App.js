@@ -6,7 +6,8 @@ class App extends Component {
   state = {
     users: null,
     sortBy: 'commentCount',
-    sortDirection: 1
+    sortDirection: 1,
+    filterName: ''
   };
 
   componentDidMount() {
@@ -26,14 +27,23 @@ class App extends Component {
     }
   };
 
+  nameChangedHandler = (event) => {
+    this.setState({ filterName: event.target.value });
+  };
+
   render() {
     let usersTable = null;
     if (this.state.users) {
       const userNames = Object.keys(this.state.users);
       let users = [];
+      let filterName = this.state.filterName;
       userNames.forEach(userName => {
         users.push({ ...this.state.users[userName], userName: userName });
       });
+      if (filterName) {
+        filterName = filterName.toLowerCase();
+        users = users.filter(name => name.userName.toLowerCase().indexOf(filterName) > 0);
+      }
       users.sort((a, b) => (b[this.state.sortBy] - a[this.state.sortBy]) * this.state.sortDirection)
       const tableRows = users.map(user => {
         return <tr key={user.userName}>
@@ -54,6 +64,9 @@ class App extends Component {
           </tr>
         </thead>
         <tbody>
+          <tr>
+            <td><input type="text" placeholder="Name filter" value={this.state.filterName} onChange={this.nameChangedHandler} /></td>
+          </tr>
           {tableRows}
         </tbody>
       </table>;
