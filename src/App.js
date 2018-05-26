@@ -42,7 +42,7 @@ class App extends Component {
       });
       if (filterName) {
         filterName = filterName.toLowerCase();
-        users = users.filter(name => name.userName.toLowerCase().indexOf(filterName) > 0);
+        users = users.filter(name => name.userName.toLowerCase().indexOf(filterName) > -1);
       }
       users.sort((a, b) => (b[this.state.sortBy] - a[this.state.sortBy]) * this.state.sortDirection)
       const tableRows = users.map(user => {
